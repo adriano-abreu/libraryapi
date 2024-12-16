@@ -4,8 +4,9 @@ import com.adrianodeabreu.libraryapi.model.Autor;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record AutorDTO(String nome, LocalDate dataNascimento, String nacionalidade) {
+public record AutorDTO(UUID id, String nome, LocalDate dataNascimento, String nacionalidade) {
 
     @NotNull
     public Autor mapearParaAutor() {
