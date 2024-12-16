@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,6 +64,37 @@ public class AutorController {
         }
         Autor autor = autorOptional.get();
         service.deletar(autor);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AutorDTO>> pesquisarAutoresPorNomeOuNacionalidade(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "nacionalidade", required = false) String nacionalidade
+    ) {
+        List<Autor> autores = service.pesquisarAutores(nome, nacionalidade);
+        
+        List<AutorDTO> autorDTOS = autores.stream().map(autor -> new AutorDTO(
+                autor.getId(),
+                autor.getNome(),
+                autor.getDataNascimento(),
+                autor.getNacionalidade()
+        )).toList();
+        return ResponseEntity.ok(autorDTOS);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> atualizarAutor(@PathVariable("id") String id, @RequestBody AutorDTO autorDTO) {
+        var idAutor = UUID.fromString(id);
+        Optional<Autor> autorOptional = service.buscarPorId(idAutor);
+        if (autorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Autor autor = autorOptional.get();
+        autor.setNome(autorDTO.nome());
+        autor.setDataNascimento(autorDTO.dataNascimento());
+        autor.setNacionalidade(autorDTO.nacionalidade());
+        service.atualizar(autor);
         return ResponseEntity.noContent().build();
     }
 }
