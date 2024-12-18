@@ -3,6 +3,7 @@ package com.adrianodeabreu.libraryapi.controller;
 import com.adrianodeabreu.libraryapi.controller.dto.AutorDTO;
 
 import com.adrianodeabreu.libraryapi.controller.dto.ErroResposta;
+import com.adrianodeabreu.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.adrianodeabreu.libraryapi.exceptions.RegistroDuplicadoException;
 import com.adrianodeabreu.libraryapi.model.Autor;
 import com.adrianodeabreu.libraryapi.service.AutorService;
@@ -64,15 +65,20 @@ public class AutorController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletarAutor(@PathVariable("id") String id) {
-        var idAutor = UUID.fromString(id);
-        Optional<Autor> autorOptional = service.buscarPorId(idAutor);
-        if (autorOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Autor autor = autorOptional.get();
-        service.deletar(autor);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Object> deletarAutor(@PathVariable("id") String id) {
+       try {
+           var idAutor = UUID.fromString(id);
+           Optional<Autor> autorOptional = service.buscarPorId(idAutor);
+           if (autorOptional.isEmpty()) {
+               return ResponseEntity.notFound().build();
+           }
+           Autor autor = autorOptional.get();
+           service.deletar(autor);
+           return ResponseEntity.noContent().build();
+       } catch (OperacaoNaoPermitidaException e) {
+           var erroDTO = ErroResposta.repostaPadrao(e.getMessage(), List.of());
+           return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+       }
     }
 
     @GetMapping

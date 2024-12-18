@@ -4,6 +4,7 @@ import com.adrianodeabreu.libraryapi.config.validator.AutorValidator;
 import com.adrianodeabreu.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.adrianodeabreu.libraryapi.model.Autor;
 import com.adrianodeabreu.libraryapi.repository.AutorRepository;
+import com.adrianodeabreu.libraryapi.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +18,12 @@ public class AutorService {
 
     private final AutorValidator validator;
 
-    public AutorService(AutorRepository repository, AutorValidator validator) {
+    private final LivroRepository livroRepository;
+
+    public AutorService(AutorRepository repository, AutorValidator validator, LivroRepository livroRepository) {
         this.repository = repository;
         this.validator = validator;
+        this.livroRepository = livroRepository;
     }
 
     public void salvar(Autor autor) {
@@ -63,6 +67,6 @@ public class AutorService {
     }
 
     public boolean possuiLivro(Autor autor){
-        return autor.getLivros().isEmpty();
+        return livroRepository.existsByAutor(autor);
     }
 }
