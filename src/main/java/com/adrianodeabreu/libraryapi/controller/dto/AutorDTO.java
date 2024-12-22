@@ -23,12 +23,4 @@ public record AutorDTO(
         @Size(min = 3, max = 50, message = "A nacional idade do autor deve ter no máximo 50 caracteres")
         String nacionalidade) {
 
-    @NotNull
-    public Autor mapearParaAutor() {
-        Autor autor = new Autor();
-        autor.setNome(this.nome);
-        autor.setDataNascimento(this.dataNascimento);
-        autor.setNacionalidade(this.nacionalidade);
-        return autor;
-    }
 }
