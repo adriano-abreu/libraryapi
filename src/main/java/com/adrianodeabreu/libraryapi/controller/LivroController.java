@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("livros")
 @RequiredArgsConstructor
-public class LivroController {
+public class LivroController implements GenericController {
 
     private final LivroService service;
 
@@ -33,21 +32,16 @@ public class LivroController {
     @PostMapping
     public ResponseEntity<Object> salvar(@RequestBody @Valid CadastroLivroDTO dto) {
         try {
-            // mapear dto para entidade
-            Livro livroEntidade = mapper.toEntity(dto); //dto.mapearParaLivro();
+            Livro livroEntidade = mapper.toEntity(dto);
 
-            // enviar a entidade para o service validar e salvar na base
             service.salvar(livroEntidade);
 
-            // criar url para acesso dos dados do livro
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(livroEntidade.getId()).toUri();
+            URI location = gerarHeaderLocation(livroEntidade.getId());
 
-            // retornar 201 created com a url de acesso ao recurso
             return ResponseEntity.created(location).build();
         } catch (RegistroDuplicadoException e) {
-           var erroDTO = ErroResposta.conflito(e.getMessage(), List.of());
-              return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+            var erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
         }
     }
 }
