@@ -1,4 +1,4 @@
-package com.adrianodeabreu.libraryapi.config.validator;
+package com.adrianodeabreu.libraryapi.validator;
 
 import com.adrianodeabreu.libraryapi.exceptions.RegistroDuplicadoException;
 import com.adrianodeabreu.libraryapi.model.Autor;

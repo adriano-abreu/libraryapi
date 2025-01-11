@@ -1,6 +1,6 @@
 package com.adrianodeabreu.libraryapi.service;
 
-import com.adrianodeabreu.libraryapi.config.validator.AutorValidator;
+import com.adrianodeabreu.libraryapi.validator.AutorValidator;
 import com.adrianodeabreu.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.adrianodeabreu.libraryapi.model.Autor;
 import com.adrianodeabreu.libraryapi.repository.AutorRepository;
