@@ -33,6 +33,7 @@ public class AutorController implements GenericController {
         Autor autor = mapper.toEntity(dt0);
         service.salvar(autor);
         URI location = gerarHeaderLocation(autor.getId());
+        
         return ResponseEntity.created(location).build();
     }
 

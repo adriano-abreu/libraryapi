@@ -6,10 +6,11 @@ import com.adrianodeabreu.libraryapi.repository.LivroRepository;
 import com.adrianodeabreu.libraryapi.repository.specs.LivroSpecs;
 import com.adrianodeabreu.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import static com.adrianodeabreu.libraryapi.repository.specs.LivroSpecs.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class LivroService {
         repository.deleteById(id);
     }
 
-    public List<Livro> pesquisar(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao) {
+    public Page<Livro> pesquisar(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao, Integer pagina, Integer tamanhoPagina) {
 //        Specification<Livro> specs = Specification
 //                .where(LivroSpecs.isbnEqual(isbn))
 //                .and(LivroSpecs.tituloLike(titulo))
@@ -50,7 +51,9 @@ public class LivroService {
                 .comNomeAutor(nomeAutor)
                 .build();
 
-        return repository.findAll(specs);
+        Pageable pagerequest = PageRequest.of(pagina, tamanhoPagina);
+
+        return repository.findAll(specs, pagerequest);
     }
 
     public void atualizar(Livro livroAtualizado) {
