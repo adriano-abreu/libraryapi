@@ -2,10 +2,7 @@ package com.adrianodeabreu.libraryapi.controller;
 
 import com.adrianodeabreu.libraryapi.controller.dto.AutorDTO;
 
-import com.adrianodeabreu.libraryapi.controller.dto.ErroResposta;
 import com.adrianodeabreu.libraryapi.controller.mappers.AutorMapper;
-import com.adrianodeabreu.libraryapi.exceptions.OperacaoNaoPermitidaException;
-import com.adrianodeabreu.libraryapi.exceptions.RegistroDuplicadoException;
 import com.adrianodeabreu.libraryapi.model.Autor;
 import com.adrianodeabreu.libraryapi.service.AutorService;
 import jakarta.validation.Valid;
