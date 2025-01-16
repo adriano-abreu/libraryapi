@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("autores")
 @RequiredArgsConstructor
-public class AutorController implements GenericController {
+public class  AutorController implements GenericController {
 
     private final AutorService service;
     @Qualifier("autorMapperImpl")

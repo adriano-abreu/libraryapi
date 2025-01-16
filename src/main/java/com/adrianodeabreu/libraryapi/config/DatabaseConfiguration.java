@@ -32,7 +32,7 @@ public class DatabaseConfiguration {
         config.setMinimumIdle(5);
         config.setPoolName("library-db-pool");
         config.setMaxLifetime(1800000);
-        config.setConnectionTimeout(10000);
+        config.setConnectionTimeout(30000);
         config.setConnectionTestQuery("select 1");
         return new HikariDataSource(config);
     }
