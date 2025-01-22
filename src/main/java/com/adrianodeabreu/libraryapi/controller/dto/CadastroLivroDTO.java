@@ -1,8 +1,6 @@
 package com.adrianodeabreu.libraryapi.controller.dto;
 
-import com.adrianodeabreu.libraryapi.model.Autor;
 import com.adrianodeabreu.libraryapi.model.GeneroLivro;
-import com.adrianodeabreu.libraryapi.model.Livro;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
